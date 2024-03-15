@@ -4,7 +4,6 @@ usersRouter.get("/test/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
 
-    // Имитация аутентификации пользователя через API
     const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
     if (!response.ok) {
       throwError(403, "1"); 
