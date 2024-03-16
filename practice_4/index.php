@@ -1,14 +1,29 @@
 <?php
-$allowed_ips = array("127.0.0.1");
 
-$user_ip = $_SERVER['REMOTE_ADDR'];
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'practice_4';
+$connection = new mysqli($host, $username, $password, $database);
 
-if (in_array($user_ip, $allowed_ips)) {
+$ip_address = $_SERVER['REMOTE_ADDR'];
 
-    echo "Доступ разрешен. Привет, пользователь!";
+$query = "SELECT * FROM ip_addresses WHERE ip_address = '$ip_address'";
+$result = $connection->query($query);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    if ($row['is_allowed'] == 1) {
+        echo "Доступ разрешен!";
+    } else {
+        echo "Доступ запрещен!";
+    }
 } else {
-    
-    header("HTTP/1.1 403 Forbidden");
-    echo "Доступ запрещен. Ваш IP-адрес: $user_ip";
+    $insert_query = "INSERT INTO ip_addresses (ip_address) VALUES ('$ip_address')";
+    $connection->query($insert_query);
+    echo "IP адрес добавлен в базу данных!";
 }
+
+$connection->close();
+
 ?>
