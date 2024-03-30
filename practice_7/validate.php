@@ -23,8 +23,13 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
-if (!strlen($email) < 6 || !strlen($email) > 30) {
-    echo "Адрес почты должен иметь от 6 до 30 символов!";
+if (strlen($email) >= 30) {
+    echo "Ваш адрес почты слишком большой, больше 30 символов!";
+    exit();
+}
+
+if (strlen($email) <= 6) {
+    echo "Ваш адрес почты слишком маленький, меньше 30 символов!";
     exit();
 }
 
@@ -77,6 +82,16 @@ if (!preg_match("/[А-Яа-яЁё]/", $password) || !preg_match("/[A-Za-z]/", $p
 
 if (!preg_match("/^\+[0-9]{1,3}[0-9]{4,14}(?:x.+)?$/", $phone)) {
     echo "Неправильный номер телефона!";
+    exit();
+}
+
+if (strlen($phone) >= 13) {
+    echo "Ваш номер телефона слишком длинный!";
+    exit();
+}
+
+if (strlen($phone) <= 11) {
+    echo "Ваш номер телефона слишком короткий!";
     exit();
 }
 
