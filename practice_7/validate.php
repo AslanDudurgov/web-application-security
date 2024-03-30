@@ -23,6 +23,11 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
+if (!strlen($email) < 6 || !strlen($email) > 30) {
+    echo "Адрес почты должен иметь от 6 до 30 символов!";
+    exit();
+}
+
 $sql = "SELECT * FROM users WHERE email = '$email'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
