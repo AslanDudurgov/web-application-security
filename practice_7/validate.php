@@ -23,13 +23,9 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
-if (strlen($email) >= 30) {
-    echo "Ваш адрес почты слишком большой, больше 30 символов!";
-    exit();
-}
-
-if (strlen($email) <= 6) {
-    echo "Ваш адрес почты слишком маленький, меньше 30 символов!";
+$length = strlen($email);
+if ($length < 6 || $length > 30) {
+    echo "Ваш адрес электронной почты должен быть от 6 до 30 символов!";
     exit();
 }
 
@@ -80,18 +76,23 @@ if (!preg_match("/[А-Яа-яЁё]/", $password) || !preg_match("/[A-Za-z]/", $p
     exit();
 }
 
-if (!preg_match("/^\+[0-9]{1,3}[0-9]{4,14}(?:x.+)?$/", $phone)) {
+$common_passwords = [
+    '1234', '12345', '123456', '1234567', '12345678', '123456789', '1234567890',
+    'qwerty', 'qwerty123', 'qwerty1', '1q2w3e', '111111', '123123',
+    'password', 'admin', 'picture1', '696969', '1000000',
+    'p@ssw0rd', 'password1', 'a123456', 'Q2w3e4r5t',
+    'йцукен', 'пароль', 'привет', '12345zz', '12345Е', '123йцу', 'йцукен12345', 'йцукенгшщз'
+];
+
+foreach ($common_passwords as $common_password) {
+    if (strpos($password, $common_password) !== false) {
+        echo "Пароль не должен содержать распространенные комбинации!";
+        exit();
+    }
+}
+
+if (!preg_match("/^\+\d{1,3} \(\d{3}\) \d{3}-\d{2}-\d{2}$/", $phone)) {
     echo "Неправильный номер телефона!";
-    exit();
-}
-
-if (strlen($phone) >= 13) {
-    echo "Ваш номер телефона слишком длинный!";
-    exit();
-}
-
-if (strlen($phone) <= 11) {
-    echo "Ваш номер телефона слишком короткий!";
     exit();
 }
 
