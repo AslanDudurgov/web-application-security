@@ -2,11 +2,10 @@
 
 session_start();
 
-// Подключение к базе данных
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "mydb";
+$dbname = "practice_1";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -18,9 +17,6 @@ if($conn===false)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
-
-    //$username = mysqli_real_escape_string($conn, $username);
-	//$password = mysqli_real_escape_string($conn, $password);
 
     $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
     $result = mysqli_query($conn,$sql);
